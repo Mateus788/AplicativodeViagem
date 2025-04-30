@@ -1,4 +1,4 @@
-package com.example.projetofinal.screens
+package com.example.appviagens.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,11 +15,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -40,12 +39,12 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.projetofinal.R
+import com.example.appviagens.R
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.example.projetofinal.data.UserDatabase
+import com.example.appviagens.data.UserDatabase
 import kotlinx.coroutines.launch
 
 @Composable
@@ -168,9 +167,12 @@ fun LoginScreen(navController: NavController, paddingValues: PaddingValues, data
             },
             modifier = Modifier
                 .width(400.dp)
-                .padding(horizontal = 90.dp)
+                .padding(horizontal = 90.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF2979FF) // azul vibrante estilo Power Ranger
+            )
         ) {
-            Text(text = "Entrar")
+            Text(text = "ENTRAR", color = Color.White)
         }
 
         Spacer(modifier = Modifier.height(50.dp))

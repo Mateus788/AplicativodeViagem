@@ -1,4 +1,4 @@
-package com.example.projetofinal.data
+package com.example.appviagens.data
 
 class UserRepository(private val userDao: UserDao) {
     suspend fun insertUser(user: User) = userDao.insertUser(user)

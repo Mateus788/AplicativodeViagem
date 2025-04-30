@@ -1,9 +1,9 @@
-package com.example.projetofinal.viewmodel
+package com.example.appviagens.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.projetofinal.data.Travel
-import com.example.projetofinal.data.TravelRepository
+import com.example.appviagens.data.Travel
+import com.example.appviagens.data.TravelRepository
 import kotlinx.coroutines.launch
 
 class TravelViewModel(private val repository: TravelRepository) : ViewModel() {

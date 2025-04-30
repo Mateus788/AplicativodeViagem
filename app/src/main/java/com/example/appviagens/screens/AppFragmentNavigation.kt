@@ -1,4 +1,4 @@
-package com.example.projetofinal.screens
+package com.example.appviagens.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,11 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
-import com.example.projetofinal.data.Travel
-import com.example.projetofinal.data.TravelRepository
-import com.example.projetofinal.data.UserDatabase
-import com.example.projetofinal.data.model.NavigationItems
-import com.example.projetofinal.viewmodel.TravelViewModel
+import com.example.appviagens.data.TravelRepository
+import com.example.appviagens.data.UserDatabase
+import com.example.appviagens.data.model.NavigationItems
+import com.example.appviagens.viewmodel.TravelViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)

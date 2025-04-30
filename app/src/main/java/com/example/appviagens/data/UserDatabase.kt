@@ -1,4 +1,4 @@
-package com.example.projetofinal.data
+package com.example.appviagens.data
 
 import android.content.Context
 import androidx.room.Database

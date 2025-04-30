@@ -1,4 +1,4 @@
-package com.example.projetofinal.screens
+package com.example.appviagens.screens
 
 import android.app.DatePickerDialog
 import android.widget.Toast
@@ -9,13 +9,14 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.projetofinal.data.Travel
-import com.example.projetofinal.viewmodel.TravelViewModel
+import com.example.appviagens.data.Travel
+import com.example.appviagens.viewmodel.TravelViewModel
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -142,7 +143,11 @@ fun TravelsScreen(navController: NavController, viewModel: TravelViewModel, user
                     Toast.makeText(context, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF2979FF),
+                contentColor = Color.White
+            )
         ) {
             Text("Cadastrar")
         }

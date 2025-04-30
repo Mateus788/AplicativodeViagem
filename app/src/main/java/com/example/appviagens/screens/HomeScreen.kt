@@ -1,4 +1,4 @@
-package com.example.projetofinal.screens
+package com.example.appviagens.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,9 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.projetofinal.R
-import com.example.projetofinal.data.Travel
-import com.example.projetofinal.viewmodel.TravelViewModel
+import com.example.appviagens.R
+import com.example.appviagens.data.Travel
+import com.example.appviagens.viewmodel.TravelViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

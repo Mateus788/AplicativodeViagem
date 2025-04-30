@@ -1,4 +1,4 @@
-package com.example.projetofinal.data
+package com.example.appviagens.data
 
 class TravelRepository(private val travelDao: TravelDao) {
     suspend fun insertTravel(travel: Travel) = travelDao.insertTravel(travel)

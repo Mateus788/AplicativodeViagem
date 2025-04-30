@@ -1,4 +1,4 @@
-package com.example.projetofinal.screens
+package com.example.appviagens.screens
 
 import androidx.compose.runtime.Composable
 

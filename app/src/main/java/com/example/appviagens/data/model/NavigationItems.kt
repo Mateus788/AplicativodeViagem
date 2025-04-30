@@ -1,4 +1,4 @@
-package com.example.projetofinal.data.model
+package com.example.appviagens.data.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

@@ -1,4 +1,4 @@
-package com.example.projetofinal
+package com.example.appviagens
 
 import org.junit.Test
 
