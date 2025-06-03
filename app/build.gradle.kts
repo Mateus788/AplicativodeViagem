@@ -47,6 +47,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.4")
 
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation(libs.generativeai)
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
