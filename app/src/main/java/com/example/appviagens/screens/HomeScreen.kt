@@ -1,6 +1,7 @@
 package com.example.appviagens.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,15 +11,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.appviagens.R
 import com.example.appviagens.data.Travel
 import com.example.appviagens.viewmodel.TravelViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: TravelViewModel, userId: Int) {
+fun HomeScreen(navController: NavController,viewModel: TravelViewModel, userId: Int) {
     var travels by remember { mutableStateOf<List<Travel>>(emptyList()) }
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -69,7 +72,14 @@ fun HomeScreen(viewModel: TravelViewModel, userId: Int) {
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(8.dp),
+                                        .padding(8.dp)
+                                        .pointerInput(Unit) {
+                                            detectTapGestures(
+                                                onLongPress={
+                                                    navController.navigate("EditarViagem/${travel.id}")
+                                                }
+                                            )
+                                        },
                                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                                 ) {
                                     Row(

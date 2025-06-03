@@ -32,7 +32,6 @@ fun EditTravelScreen(
     navController: NavController,
     viewModel: TravelViewModel,
     travelId: Int,
-    paddingValues: PaddingValues
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -81,8 +80,7 @@ fun EditTravelScreen(
     if (travel != null) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(24.dp))

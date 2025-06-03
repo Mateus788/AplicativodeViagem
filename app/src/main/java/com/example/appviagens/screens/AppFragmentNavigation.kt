@@ -18,7 +18,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.example.appviagens.data.TravelRepository
 import com.example.appviagens.data.UserDatabase
 import com.example.appviagens.data.model.NavigationItems
@@ -103,12 +105,17 @@ fun AppNavigation(paddingValues: PaddingValues, database: UserDatabase) {
                 }
             }
             composable("Início") {
-                userId?.let { HomeScreen(viewModel = travelViewModel, userId = it) }
+                userId?.let { HomeScreen(navController, viewModel = travelViewModel, userId = it)}
             }
             composable("Nova viagem") {
                 userId?.let { TravelsScreen(navController, viewModel = travelViewModel, userId = it) }
             }
             composable("Sobre") { AboutScreen() }
+            composable("EditarViagem/{id}", arguments = listOf(navArgument("id"){type=NavType.IntType})) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id")!!
+                EditTravelScreen(navController, viewModel = travelViewModel, travelId = id)
+            }
+
         }
     }
 }
