@@ -1,5 +1,6 @@
 package com.example.appviagens.screens
 
+
 import android.app.DatePickerDialog
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.appviagens.data.Travel
+import com.example.appviagens.utils.isEndDateAfterStartDate
 import com.example.appviagens.viewmodel.TravelViewModel
 import java.util.*
 
@@ -29,6 +31,10 @@ fun TravelsScreen(navController: NavController, viewModel: TravelViewModel, user
     var startDate by remember { mutableStateOf("") }
     var endDate by remember { mutableStateOf("") }
     var budget by remember { mutableStateOf("") }
+
+    var destinationError by remember { mutableStateOf("") }
+    var budgetError by remember { mutableStateOf("") }
+    var dateError by remember { mutableStateOf("") }
 
     val calendar = Calendar.getInstance()
 
@@ -56,8 +62,17 @@ fun TravelsScreen(navController: NavController, viewModel: TravelViewModel, user
     ) {
         OutlinedTextField(
             value = destination,
-            onValueChange = { destination = it },
-            label = { Text("Destino") },
+            onValueChange = {
+                destination = it
+                if (it.isNotBlank()) destinationError = ""
+            },
+            label = {
+                Text(
+                    destinationError.ifEmpty { "Destino" },
+                    color = if (destinationError.isNotEmpty()) Color.Red else Color.Unspecified
+                )
+            },
+            isError = destinationError.isNotEmpty(),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -93,7 +108,13 @@ fun TravelsScreen(navController: NavController, viewModel: TravelViewModel, user
         OutlinedTextField(
             value = endDate,
             onValueChange = {},
-            label = { Text("Data Final") },
+            label = {
+                Text(
+                    dateError.ifEmpty { "Data Final" },
+                    color = if (dateError.isNotEmpty()) Color.Red else Color.Unspecified
+                )
+            },
+            isError = dateError.isNotEmpty(),
             modifier = Modifier.fillMaxWidth(),
             readOnly = true,
             trailingIcon = {
@@ -105,42 +126,60 @@ fun TravelsScreen(navController: NavController, viewModel: TravelViewModel, user
 
         OutlinedTextField(
             value = budget,
-            onValueChange = { budget = it },
-            label = { Text("Orçamento ($)") },
+            onValueChange = {
+                budget = it
+                if (it.isNotBlank()) budgetError = ""
+            },
+            label = {
+                Text(
+                    budgetError.ifEmpty { "Orçamento (R$)" },
+                    color = if (budgetError.isNotEmpty()) Color.Red else Color.Unspecified
+                )
+            },
+            isError = budgetError.isNotEmpty(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
 
         Button(
             onClick = {
-                if (destination.isNotBlank() && startDate.isNotBlank() && endDate.isNotBlank() && budget.isNotBlank()) {
-                    try {
-                        val budgetDouble = budget.toDouble()
+                destinationError = if (destination.isBlank()) "Campo obrigatório" else ""
+                budgetError = if (budget.isBlank()) "Campo obrigatório" else ""
+                dateError = when {
+                    startDate.isBlank() || endDate.isBlank() -> "Datas obrigatórias"
+                    !isEndDateAfterStartDate(startDate, endDate) -> "Data final deve ser após a inicial"
+                    else -> ""
+                }
 
-                        val travel = Travel(
-                            id = 0,
-                            userId = userId,
-                            destination = destination,
-                            travelType = travelType,
-                            startDate = startDate,
-                            endDate = endDate,
-                            budget = budgetDouble
-                        )
-
-                        viewModel.insertTravel(travel)
-                        Toast.makeText(context, "Viagem cadastrada!", Toast.LENGTH_SHORT).show()
-
-                        destination = ""
-                        travelType = "Lazer"
-                        startDate = ""
-                        endDate = ""
-                        budget = ""
-
-                    } catch (e: NumberFormatException) {
-                        Toast.makeText(context, "Digite um valor numérico válido para o orçamento.", Toast.LENGTH_SHORT).show()
+                if (destinationError.isEmpty() && budgetError.isEmpty() && dateError.isEmpty()) {
+                    val budgetDouble = budget.replace(",", ".").toDoubleOrNull()
+                    if (budgetDouble == null) {
+                        budgetError = "Valor inválido"
+                        return@Button
                     }
-                } else {
-                    Toast.makeText(context, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+
+                    val travel = Travel(
+                        id = 0,
+                        userId = userId,
+                        destination = destination,
+                        travelType = travelType,
+                        startDate = startDate,
+                        endDate = endDate,
+                        budget = budgetDouble
+                    )
+
+                    viewModel.insertTravel(travel)
+                    Toast.makeText(context, "Viagem cadastrada com sucesso!", Toast.LENGTH_SHORT).show()
+
+                    // Limpar campos
+                    destination = ""
+                    travelType = "Lazer"
+                    startDate = ""
+                    endDate = ""
+                    budget = ""
+
+                    // Retornar ou navegar
+                    navController.popBackStack()
                 }
             },
             modifier = Modifier.fillMaxWidth(),

@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TravelViewModel(private val repository: TravelRepository) : ViewModel() {
-    private val apiKey = "AIzaSyBjhbhy9-4mB8sgzJ2hzuRk2ClDjRlWLS4"
+
+    private val apiKey = "AIzaSyBy8PXnXQnrk3Itz8wZY0X6eiutqZ-XJZ8"
 
     fun insertTravel(travel: Travel) {
         viewModelScope.launch {
@@ -43,7 +44,7 @@ class TravelViewModel(private val repository: TravelRepository) : ViewModel() {
     suspend fun gerarRoteiroGemini(travel: Travel): String = withContext(Dispatchers.IO) {
         try {
             val generativeModel = GenerativeModel(
-                modelName = "models/gemini-1.5-pro-latest",
+                modelName = "gemini-1.5-flash", // modelo correto para entrada/saída de texto
                 apiKey = apiKey
             )
 
@@ -59,7 +60,7 @@ class TravelViewModel(private val repository: TravelRepository) : ViewModel() {
             return@withContext response.text ?: "Não foi possível gerar o roteiro no momento."
         } catch (e: Exception) {
             Log.e("TravelViewModel", "Erro ao gerar roteiro", e)
-            return@withContext "Erro ao gerar roteiro: ${e.message ?: "erro desconhecido"}"
+            return@withContext "Erro ao gerar roteiro: ${e.localizedMessage ?: "erro desconhecido"}"
         }
     }
 }

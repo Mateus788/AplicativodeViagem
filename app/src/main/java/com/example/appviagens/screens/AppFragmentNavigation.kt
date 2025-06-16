@@ -25,6 +25,8 @@ import com.example.appviagens.data.TravelRepository
 import com.example.appviagens.data.UserDatabase
 import com.example.appviagens.data.model.NavigationItems
 import com.example.appviagens.viewmodel.TravelViewModel
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,17 +107,34 @@ fun AppNavigation(paddingValues: PaddingValues, database: UserDatabase) {
                 }
             }
             composable("Início") {
-                userId?.let { HomeScreen(navController, viewModel = travelViewModel, userId = it)}
+                userId?.let { HomeScreen(navController, viewModel = travelViewModel, userId = it) }
             }
             composable("Nova viagem") {
                 userId?.let { TravelsScreen(navController, viewModel = travelViewModel, userId = it) }
             }
             composable("Sobre") { AboutScreen() }
-            composable("EditarViagem/{id}", arguments = listOf(navArgument("id"){type=NavType.IntType})) { backStackEntry ->
+            composable(
+                "EditarViagem/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("id")!!
                 EditTravelScreen(navController, viewModel = travelViewModel, travelId = id)
             }
+            // ✅ Nova tela adicionada
+            composable(
+                route = "roteiroIA/{roteiro}",
+                arguments = listOf(navArgument("roteiro") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val roteiroEncoded = backStackEntry.arguments?.getString("roteiro")
+                val roteiroDecoded = roteiroEncoded?.let {
+                    URLDecoder.decode(it, StandardCharsets.UTF_8.name())
+                } ?: "Roteiro indisponível."
 
+                RoteiroIAScreen(
+                    roteiro = roteiroDecoded,
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
     }
 }
@@ -126,7 +145,7 @@ fun NavigationBar(
     selectedItemIndex: Int,
     onItemSelected: (Int, String) -> Unit
 ) {
-    androidx.compose.material3.NavigationBar(
+    NavigationBar(
         containerColor = MaterialTheme.colorScheme.primary,
         modifier = Modifier.padding(top = 2.dp)
     ) {
